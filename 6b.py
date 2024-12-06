@@ -26,12 +26,19 @@ b=[*open('6')]
 w = len(b[0])-1
 h = len(b)
 b = list(''.join([l.strip() for l in b]))
-pos = b.index('^')
+pos =p= b.index('^')
 S = {'^':0,'>':1,'v':2,'<':3}
 sprs='^>v<'*2
 dirs=((0,-1),(1,0),(0,1),(-1,0))
+bb=b.copy()
+while 1:
+  p,s=m(p,bb)
+  if p<0:break
+  bb[p]=s
+
 t = 0
-for p in (p for p in range(len(b)) if b[p] == '.'):
+
+for p in (p for p in range(len(b)) if bb[p] in sprs and p!=pos):
     nb = [*b]
     nb[p] = '#'
     if isloop(nb,pos):
