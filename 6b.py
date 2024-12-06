@@ -1,3 +1,5 @@
+from multiprocessing import Pool
+
 def m(pos,b):
     s=b[pos]
     d=S[s]
@@ -11,7 +13,10 @@ def m(pos,b):
         return pos, sprs[d+1]
     return np,s
     
-def isloop(b, pos):
+def isloop(*args):
+    b, pos, xb = args[0]
+    b = [*b]
+    b[xb] = '#'
     trail = [0 for _ in b]
     while 1:
         pos,s = m(pos,b)
@@ -21,6 +26,7 @@ def isloop(b, pos):
         if trail[pos]&v:
             return 1
         trail[pos]|=v
+    return 0
 
 b=[*open('6')]
 w = len(b[0])-1
@@ -36,14 +42,6 @@ while 1:
   if p<0:break
   bb[p]=s
 
-t = 0
-
-for p in (p for p in range(len(b)) if bb[p] in sprs and p!=pos):
-    nb = [*b]
-    nb[p] = '#'
-    if isloop(nb,pos):
-        t+=1
-print(t)
-assert t in (6,1655)
-    
+p=Pool()
+print(sum(p.map(isloop, ((b,pos,p) for p in (p for p in range(len(b)) if bb[p] in sprs and p!=pos)))))
 
