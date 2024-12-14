@@ -9,19 +9,21 @@ def m(b,p,d):
  y=p//w+D[~d]
  return b[y*w+x]if 0<=x<w and 0<=y<h else 0
  
-def pb(b):
+def c(b):
   t=0
+  for p,v in [*b.items()]:
+    t+=sum(v*m(b,p,i) for i in (0,1))
+  return t
+
+def pb(b):
   s=''
   for y in range(h):
     l=''
     for x in range(w):
       v=b[y*w+x]
       l += str(v) if v >0 else '.'
-      t+=sum(m(b,y*w+x,i) for i in (0,1,2,3))
     s+=l+'\n'
-  print(s)
-  print(t)
-
+  return s
 
 def it(i):
     b=defaultdict(int)   
@@ -33,11 +35,14 @@ def it(i):
       y=(y+vy*i)%h
       b[y*w+x]+=1
     return b
-import time
-for j in range(300):
-  print(j)
-  pb(it(j))
-  input()
-  #time.sleep(0.2)
+
+maxt = 0
+for j in range(30000):
+  b=it(j)
+  t=c(b)
+  if t > maxt:
+    maxt = t
+    print(pb(b))
+    print(j,t)
   
   
