@@ -6,7 +6,8 @@ def solve(p):
     O = 10000000000000
     A, B = Ints('A B')
     s = Solver()
-    s += A*ax + B*bx == px + O, A*ay + B*by == py + O
+    s += A*ax + B*bx == px + O
+    s += A*ay + B*by == py + O
     if s.check() == unsat:
         return 0
     return s.model().eval(A*3+B).as_long()
